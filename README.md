@@ -69,7 +69,7 @@ Because the agent runs in the victim's page context, it has access to everything
 
 ```bash
 # Clone
-git clone <repo-url>
+git clone https://github.com/baum1810/pagezero.git
 cd pagezero
 
 # Virtual environment
