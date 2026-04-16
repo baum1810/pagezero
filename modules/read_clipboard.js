@@ -1,0 +1,1 @@
+navigator.clipboard.readText().then(function(t){__pzResult(t)}).catch(function(e){__pzResult('denied:'+e.message)});return '__async__';

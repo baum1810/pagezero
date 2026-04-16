@@ -1,0 +1,1 @@
+navigator.clipboard.writeText('{{param}}').then(function(){__pzResult('written')}).catch(function(e){__pzResult('error:'+e.message)});return '__async__';

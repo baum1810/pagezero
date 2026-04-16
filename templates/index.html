@@ -1,0 +1,136 @@
+<!-- templates/index.html -->
+<!doctype html>
+<html>
+<body>
+<script>
+const cid = "{{ cid }}"
+
+async function collect() {
+
+  let battery = null
+  if (navigator.getBattery) {
+    const b = await navigator.getBattery()
+    battery = { charging: b.charging, level: b.level }
+  }
+
+  let storage = null
+  if (navigator.storage && navigator.storage.estimate) {
+    storage = await navigator.storage.estimate()
+  }
+
+  function webgl() {
+    try {
+      const c = document.createElement("canvas")
+      const gl = c.getContext("webgl")
+      const d = gl.getExtension("WEBGL_debug_renderer_info")
+      return {
+        vendor: gl.getParameter(d.UNMASKED_VENDOR_WEBGL),
+        renderer: gl.getParameter(d.UNMASKED_RENDERER_WEBGL)
+      }
+    } catch {
+      return null
+    }
+  }
+
+  function canvasFP() {
+    const c = document.createElement("canvas")
+    const x = c.getContext("2d")
+    x.font = "14px Arial"
+    x.fillText("fp", 2, 2)
+    return c.toDataURL()
+  }
+
+  function audioFP() {
+    try {
+      const a = new AudioContext()
+      return { rate: a.sampleRate, state: a.state }
+    } catch {
+      return null
+    }
+  }
+
+  const data = {
+    navigator: {
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      vendor: navigator.vendor,
+      webdriver: navigator.webdriver,
+      language: navigator.language,
+      languages: navigator.languages,
+      doNotTrack: navigator.doNotTrack,
+      hardwareConcurrency: navigator.hardwareConcurrency,
+      deviceMemory: navigator.deviceMemory || null,
+      maxTouchPoints: navigator.maxTouchPoints,
+      pdfViewer: navigator.pdfViewerEnabled || null,
+      userAgentData: navigator.userAgentData || null
+    },
+    screen: {
+      width: screen.width,
+      height: screen.height,
+      availWidth: screen.availWidth,
+      availHeight: screen.availHeight,
+      colorDepth: screen.colorDepth,
+      pixelRatio: devicePixelRatio
+    },
+    window: {
+      innerWidth: innerWidth,
+      innerHeight: innerHeight,
+      outerWidth: outerWidth,
+      outerHeight: outerHeight,
+      visibility: document.visibilityState,
+      hasFocus: document.hasFocus()
+    },
+    preferences: {
+      dark: matchMedia("(prefers-color-scheme: dark)").matches,
+      contrast: matchMedia("(prefers-contrast: more)").matches,
+      reducedMotion: matchMedia("(prefers-reduced-motion)").matches,
+      invertedColors: matchMedia("(inverted-colors: inverted)").matches,
+      colorGamutP3: matchMedia("(color-gamut: p3)").matches,
+      hdr: matchMedia("(dynamic-range: high)").matches,
+      pointerCoarse: matchMedia("(pointer: coarse)").matches,
+      pointerFine: matchMedia("(pointer: fine)").matches,
+      hover: matchMedia("(hover: hover)").matches
+    },
+    performance: {
+      memory: performance.memory || null,
+      timing: performance.timing ? {
+        dns: performance.timing.domainLookupEnd - performance.timing.domainLookupStart,
+        tcp: performance.timing.connectEnd - performance.timing.connectStart,
+        ttfb: performance.timing.responseStart - performance.timing.requestStart
+      } : null,
+      entries: performance.getEntries().map(e => e.name)
+    },
+    storage: storage,
+    battery: battery,
+    webgl: webgl(),
+    canvasFP: canvasFP(),
+    audioFP: audioFP(),
+    webrtc: typeof RTCPeerConnection !== "undefined",
+    historyLength: history.length,
+    referrer: document.referrer,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timezoneOffset: new Date().getTimezoneOffset(),
+    localeTime: new Date().toLocaleString()
+  }
+
+  await fetch("/collect", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  })
+}
+
+async function poll() {
+  const r = await fetch("/poll/" + cid)
+  const j = await r.json()
+  if (j.update && j.update.feature === "reload") {
+    location.reload()
+  }
+  setTimeout(poll, 2000)
+}
+
+collect()
+poll()
+</script>
+</body>
+</html>

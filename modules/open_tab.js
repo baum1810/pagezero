@@ -1,0 +1,1 @@
+window.open('{{param}}','_blank');return 'opened';

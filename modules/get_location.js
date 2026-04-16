@@ -1,0 +1,1 @@
+navigator.geolocation.getCurrentPosition(function(p){__pzResult({lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy})},function(e){__pzResult('error:'+e.message)});return '__async__';

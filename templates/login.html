@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PageZero — Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; min-height: 100vh; display: flex; align-items: center; justify-content: center; color: #e5e5e5; }
+        .card { width: 100%; max-width: 380px; background: #111; border: 1px solid #222; border-radius: 12px; padding: 44px 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+        .logo { text-align: center; margin-bottom: 32px; }
+        .logo-mark { font-size: 42px; font-weight: 700; background: linear-gradient(135deg,#3b82f6,#a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -2px; line-height: 1; }
+        .logo-sub { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 0.15em; margin-top: 6px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 12px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+        input { width: 100%; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 11px 14px; font-size: 14px; color: #e5e5e5; font-family: inherit; transition: border-color 0.15s; outline: none; }
+        input:focus { border-color: #3b82f6; }
+        input::placeholder { color: #444; }
+        .btn { width: 100%; margin-top: 24px; padding: 12px; background: linear-gradient(135deg,#3b82f6,#6366f1); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: opacity 0.15s; }
+        .btn:hover { opacity: 0.88; }
+        .error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #f87171; margin-bottom: 16px; text-align: center; }
+        .roe-box { background: #0d1a0d; border: 1px solid #1a3a1a; border-radius: 6px; padding: 12px 14px; margin-top: 20px; font-size: 11px; color: #6b8f6b; line-height: 1.6; }
+        .roe-box strong { color: #86b886; display: block; margin-bottom: 6px; }
+        .roe-check { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; cursor: pointer; }
+        .roe-check input[type=checkbox] { width: auto; flex-shrink: 0; margin-top: 2px; accent-color: #22c55e; }
+        .roe-check span { font-size: 11px; color: #888; }
+        .roe-error { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #fbbf24; margin-bottom: 12px; }
+        .hint { text-align: center; font-size: 11px; color: #444; margin-top: 24px; padding-top: 20px; border-top: 1px solid #1e1e1e; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">
+            <div class="logo-mark">P0</div>
+            <div class="logo-sub">PageZero C2</div>
+        </div>
+        {% if error %}
+        <div class="error">Invalid credentials — access denied.</div>
+        {% endif %}
+        {% if roe_error %}
+        <div class="roe-error">You must acknowledge the Rules of Engagement to proceed.</div>
+        {% endif %}
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="u">Username</label>
+                <input type="text" name="u" id="u" placeholder="admin" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label for="p">Password</label>
+                <input type="password" name="p" id="p" placeholder="••••••••" required>
+            </div>
+            <div class="roe-box">
+                <strong>Rules of Engagement</strong>
+                This tool may only be used against systems you own or have explicit written authorization to test.
+                All sessions, module executions, and data captures are logged with your operator identity and timestamp.
+                Unauthorized use is a criminal offence under the Computer Fraud and Abuse Act (US), Computer Misuse Act (UK), and equivalent legislation.
+                <label class="roe-check">
+                    <input type="checkbox" name="roe_ack" value="1" required>
+                    <span>I confirm I have written authorization for this engagement and accept full legal responsibility for my actions.</span>
+                </label>
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+        <p class="hint">Authorized access only · All logins and module executions are audited</p>
+    </div>
+</body>
+</html>

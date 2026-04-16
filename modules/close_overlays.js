@@ -1,0 +1,1 @@
+(function(){var ids=['__pzCU','__pzGL','__pzML','__pzCap'];var n=0;ids.forEach(function(id){var el=document.getElementById(id);if(el){el.remove();n++;}});return n+' removed';})()

@@ -1,0 +1,1 @@
+try{return String(eval('{{param}}'));}catch(e){return 'ERROR:'+e.message;}

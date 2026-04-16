@@ -1,0 +1,1 @@
+Notification.requestPermission().then(function(r){__pzResult(r)});return '__async__';
