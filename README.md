@@ -2,7 +2,7 @@
 
 > **Built with AI assistance in ~2 days. Expect bugs. Works on my machine — no guarantees elsewhere.**
 
-![PageZero Admin Panel](docs/screenshots/admin_panel.png)
+![PageZero Admin Panel](screenshots/admin_panel.png)
 
 A JavaScript-based browser exploitation and C2 framework. Think of it as a mix between **Evilginx** and **BeEF** — Evilginx-style phishing delivery (MITM, no phishlets required) combined with BeEF-style in-browser hooking and module execution. Once a target loads your hook, you get a live session with access to 40+ modules: credential theft, keylogging, LAN scanning, session mirroring, social engineering overlays, CPU side-channels, and more — all from a web admin panel.
 
@@ -133,7 +133,7 @@ Password: pagezero
 
 ---
 
-![Module Execution](docs/screenshots/module_exec.png)
+![Module Execution](screenshots/module_exec.png)
 
 ## Admin Panel Tabs
 
@@ -227,7 +227,7 @@ Password: pagezero
 
 ### Network
 
-![LAN Network Map](docs/screenshots/network_map.png)
+![LAN Network Map](screenshots/network_map.png)
 
 **LAN Scanner** — Two-phase browser-based internal network scanner. Phase 1: host discovery via `fetch()` timing. Phase 2: port scan + device fingerprinting (50+ signatures: routers, NAS, hypervisors, cameras, IoT, CI/CD). No permissions required — works because TCP connection timing/error type reveals reachability even when CORS blocks response body.
 
@@ -247,7 +247,7 @@ Parameters:
 
 ### Exploitation
 
-![Session Mirror — Live DOM Replay](docs/screenshots/session_mirror.png)
+![Session Mirror — Live DOM Replay](screenshots/session_mirror.png)
 
 **Clickjacking Engine** — Transparent `<iframe>` overlay hijacks clicks to target site.
 
