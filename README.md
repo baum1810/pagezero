@@ -1,7 +1,9 @@
 # PageZero — Browser Exploitation Framework
 
 > **Built with AI assistance in ~2 days. Expect bugs. Works on my machine — no guarantees elsewhere.**
-
+<p align="center">
+  <img src="https://views.igorkowalczyk.dev/api/badge/pagezero" />
+</p>
 ![PageZero Admin Panel](screenshots/admin_panel.png)
 
 A JavaScript-based browser exploitation and C2 framework. Think of it as a mix between **Evilginx** and **BeEF** — Evilginx-style phishing delivery (MITM, no phishlets required) combined with BeEF-style in-browser hooking and module execution. Once a target loads your hook, you get a live session with access to 40+ modules: credential theft, keylogging, LAN scanning, session mirroring, social engineering overlays, CPU side-channels, and more — all from a web admin panel.
